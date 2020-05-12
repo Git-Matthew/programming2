@@ -259,6 +259,7 @@ Steps to make a commit
 
 ### Viewing the Commit History
 You will probably want to look back to see what has happened after you have created several commits. The ```git log``` command allows you to do that. Even if you made commits in different branches these commands show you what are all of them in the command line.
+
 ![gitlog](https://desarrolloweb.com/archivoimg/general/4092.png)
 
 ### Undoing Things
@@ -341,51 +342,51 @@ Git stores data as a series of snapshots and saves a commit object that contains
 
 When making a commit, git stores the metadata of each file as a separate “blob” and uses a “tree” to list the directories of each blob and what is stored in each, while the commit works as a pointer to the tree.
 
-<img src="https://git-scm.com/book/en/v2/images/commit-and-tree.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/commit-and-tree.png" alt="alt text" width="700" height="400">
 
 If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it.
 
-<img src="https://git-scm.com/book/en/v2/images/commits-and-parents.png" alt="alt text" width="700" height="500">
+![pic2](https://git-scm.com/book/en/v2/images/commits-and-parents.png)
 
 A branch in Git is a movable pointer to one of these commits. The default branch name in Git is master. As you start making commits, you’re given a master branch that points to the last commit you made. Every time you commit, the master branch pointer moves forward automatically.
 
-<img src="https://git-scm.com/book/en/v2/images/branch-and-history.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/branch-and-history.png" alt="alt text" width="550" height="350">
 
 ### Creating a New Branch
 
 Creating a new branch makes a new pointer for you to move around.
 
-You can do this by using the `$ git branch testing` to create a branch named “testing”.
+You can do this by using the ```git branch testing``` to create a branch named “testing”.
 
-<img src="https://git-scm.com/book/en/v2/images/two-branches.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/two-branches.png" alt="alt text" width="600" height="250">
 
 Git keeps a special pointer called `HEAD` to know in which branch you are currently on.
 
 The `git branch` command only created a new branch, in this case, it’s still on `master`.
 
-<img src="https://git-scm.com/book/en/v2/images/head-to-master.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/head-to-master.png" alt="alt text" width="550" height="300">
 
 The `git log` command that shows you where the branch pointers are pointing. This option is called `--decorate`.
 
 To switch to an existing branch, we run the `git checkout` command. This moves `HEAD` to point to the `testing` branch.
 
-<img src="https://git-scm.com/book/en/v2/images/head-to-testing.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/head-to-testing.png" alt="alt text" width="500" height="250">
 
 The `HEAD` branch moves forward when a commit is made. But in this case `master` branch still points to the commit when the run git checkout to switch branches was done.
 
-<img src="https://git-scm.com/book/en/v2/images/advance-testing.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/advance-testing.png" alt="alt text" width="550" height="230">
 
 By default, `git log` will only show commit history below the branch you’ve checked out. To show all of the branches, add `--all` to your `git log` command.
 
 When moving back to the `master` branch after doing a commit on another branch, this will move the HEAD pointer back, and it reverts the files in the working directory back to the snapshot that master points to.
 
-<img src="https://git-scm.com/book/en/v2/images/checkout-master.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/checkout-master.png" alt="alt text" width="550" height="230">
 
 NOTE: Switching branches changes files in your working directory
 
 By making changes to the `master` branch now, the project will be diverged. Meaning it is possible to switch back and forth between the branches and merge them together when ready.
 
-<img src="https://git-scm.com/book/en/v2/images/advance-master.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/advance-master.png" alt="alt text" width="550" height="300">
 
 Using `git log --oneline --decorate --graph --all` it shows how the history has diverged.
 
@@ -395,7 +396,7 @@ To Create a new branch and switch to it at the same time use `git checkout -b <n
 
 ### Basic Branching
 
-<img src="https://git-scm.com/book/en/v2/images/basic-branching-1.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/basic-branching-1.png" alt="alt text" width="500" height="135">
 
 NOTE: It’s best to have a clean working state when you switch branches.
 
@@ -409,32 +410,34 @@ If you change the same part of the same file differently in the two branches you
 
 These conflicts can look something like this:
 
-`$ git merge iss53
+```
+git merge iss53
 Auto-merging index.html
 CONFLICT (content): Merge conflict in index.html
-Automatic merge failed; fix conflicts and then commit the result.`
+Automatic merge failed; fix conflicts and then commit the result.
+```
 
 Here git pauses the process while you resolve the conflict.
 
 To see which files are unmerged at any point after a merge conflict, run `git status`
 
 For example: 
-
-`<<<<<<< HEAD:index.html
+```
+<<<<<<< HEAD:index.html
 <div id="footer">contact : email.support@github.com</div>
 =======
 <div id="footer">
  please contact us at support@github.com
 </div>
->>>>>>> iss53:index.html`
+>>>>>>> iss53:index.html
+```
 
 This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the =======), while the version in your iss53 branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
-
-
-`<div id="footer">
+```
+<div id="footer">
 please contact us at email.support@github.com
-</div>`
-
+</div>
+```
 After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
 
 After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you. You can run git status again to verify that all conflicts have been resolved
@@ -467,7 +470,7 @@ There is a certain workflow that many git developers use, and it is as follows:
 - A `develop` branch used to work from or use to test stability.
 - A `topic` branch to make sure code passes all the tests and doesn't introduce bugs.
 
-<img src="https://git-scm.com/book/en/v2/images/lr-branches-2.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/lr-branches-2.png" alt="alt text" width="550" height="225">
 
 ## Remote Branching
 
@@ -487,7 +490,7 @@ To synchronize work with a given remote, run `git fetch <remote>` . This looks u
 
 Local branches aren’t automatically synchronized to the remotes you write to.
 
-You can push up work in the same way you pushed your first branch. Run git push <remote> <branch>
+You can push up work in the same way you pushed your first branch. Run ```git push <remote> <branch>```
 
 ### Tracking Branches
 
@@ -497,7 +500,7 @@ If you’re on a tracking branch and type `git pull`, Git automatically knows wh
 
 When using `--track` it allows you to set up a tracking branch.
 
-To get a totally up to date ahead and behind numbers, you’ll need to fetch from all your remotes right before running this. You could do that like this: `$ git fetch --all; git branch -vv`
+To get a totally up to date ahead and behind numbers, you’ll need to fetch from all your remotes right before running this. You could do that like this: ```git fetch --all; git branch -vv```
 
 ### Pulling
 
@@ -517,21 +520,21 @@ With the `rebase` command, you can take all the changes that were committed on o
 
 Take this for example:
 
-<img src="https://git-scm.com/book/en/v2/images/basic-rebase-2.png" alt="alt text" width="700" height="500">
+![pic11](https://git-scm.com/book/en/v2/images/basic-rebase-2.png)
 
 This operation works by going to the common ancestor of the two branches, getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn.
 
-<img src="https://git-scm.com/book/en/v2/images/basic-rebase-3.png" alt="alt text" width="700" height="500">
+![pic12](https://git-scm.com/book/en/v2/images/basic-rebase-3.png)
 
 ### More Interesting Rebases
 
 You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the --onto option of git rebase:
 
-<img src="https://git-scm.com/book/en/v2/images/interesting-rebase-1.png" alt="alt text" width="700" height="500">
+<img src="https://git-scm.com/book/en/v2/images/interesting-rebase-1.png" alt="alt text" width="650" height="350">
 
 This takes the client branch, figures out the patches since it diverged from the server branch, and replays these patches in the client branch as if it was based directly off the master branch instead.
 
-<img src="https://git-scm.com/book/en/v2/images/interesting-rebase-2.png" alt="alt text" width="700" height="500">
+![pic14](https://git-scm.com/book/en/v2/images/interesting-rebase-2.png)
 
 ### The Perils of Rebasing
 
